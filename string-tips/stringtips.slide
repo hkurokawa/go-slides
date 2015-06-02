@@ -76,7 +76,7 @@ As in Java, it is inefficient to concatenate a lot of strings one by one, like `
 
 .play play07.go /	const/,/	fmt.Println\(s/
 
-* Refference
+* Reference
 
 * 
 
