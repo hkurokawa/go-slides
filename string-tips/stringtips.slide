@@ -1,0 +1,86 @@
+string tips
+02 Jun 2015
+
+Hiroshi Kurokawa
+https://github.com/hkurokawa
+@hydrakecat
+
+* string basics
+
+* What is a string?
+
+- A read-only slice of bytes
+- Safe to share the string thanks to its immutability
+
+.play play01.go /^func main/,/^}/
+
+* Literals
+- Raw stirng: surrounded by back quotes (`)
+- Interpreted string: surrounded by double quotes (")
+
+  `raw literal
+  with a new line`
+  
+  "Hello, \u4e16\u754c" // "Hello, 世界"
+  
+  "\x48\x65\x6c\x6c\x6f\x2c\x20\xe4\xb8\x96\xe7\x95\x8c" // "Hello, 世界"
+
+* Some escapings in an interpreted string
+.link https://golang.org/ref/spec#Rune_literals https://golang.org/ref/spec#Rune_literals
+
+- \n
+- \r
+- \t
+- \v
+- \\
+- \"
+- \ _nnn_
+- \x _nn_
+- \u _nnnn_
+- \U _nnnnnnnn_
+
+* Again, string is just a bunch of bytes
+string may not be a valid UTF-8 encoded string
+
+.play play02.go /^func main/,/^}/
+
+* tips
+
+* %q verb
+- %q verb will escape any non-printable byte sequences in a string
+- %+q verb will expose the Unicode values of properly formatted UTF-8 that represents non-ASCII data
+- %q tries to interpret a single byte as a rune (See [[http://golang.org/src/strconv/quote.go][strconv.quoteWith()]])
+
+.play play03.go /^func main/,/^}/
+
+* Count by runes, not by bytes
+.play play04.go /^func main/,/^}/
+
+* Append strings one by one
+As in Java, it is inefficient to concatenate a lot of strings one by one, like `s += list[i]`, which will cause memory allocation many times
+
+*Solution*
+
+- Use `append()`
+.code play05.go /b := make/,/return/
+
+- Use `bytes.Buffer`
+.code play05.go /b := bytes.NewBuffer/,/return/
+
+* Usefule packages
+- [[https://golang.org/pkg/unicode/][unicode]]: Test functions on some Unicode properties
+- [[https://golang.org/pkg/unicode/utf8/][unicode/utf8]]: Utility functions to translate between rune <=> bytes / string
+- [[https://golang.org/pkg/strings/][strings]]: Utility functions to manipulate strings
+
+.play play06.go /	const/,/	}/
+
+.play play07.go /	const/,/	fmt.Println\(s/
+
+* Refference
+
+* 
+
+- [[https://golang.org/ref/spec][The Go Programming Language Specification - The Go Programming Language]]
+- [[https://blog.golang.org/strings][Strings, bytes, runes and characters in Go - The Go Blog]]
+- [[http://qiita.com/ruiu/items/2bb83b29baeae2433a79][Goでは文字列連結はコストの高い操作 - Qiita]]
+- [[http://qiita.com/ono_matope/items/d5e70d8a9ff2b54d5c37][Goの文字列結合のパフォーマンス - Qiita]]
